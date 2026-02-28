@@ -1,12 +1,15 @@
 # Sable Companion
 
-A lightweight library for making mods compatible with Sable
+[![Sable 1.21.1](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.ryanhcode.dev%2Freleases%2Fdev%2Fryanhcode%2Fsable-companion%2Fsable-companion-1.21.1%2Fmaven-metadata.xml&label=Sable%201.21.1)]([-1.21.1/](https://maven.ryanhcode.dev/releases/dev/ryanhcode/sable-companion/sable-companion-1.21.1/))
+
+Companion is an extremely lightweight library for making mods compatible with [Sable](https://github.com/ryanhcode/sable).
+It is intended to be included or JiJ'd into mods, and contains a safe default implementation of all methods which is overridden by Sable when installed.
 
 ## Getting Started
 
-Copy the following segments into your `build.gradle` file depending on the platform.
+Copy the following segments into your `build.gradle` file depending on the platform:
 
-### Neoforge
+### NeoForge
 
 <details>
   <summary>Click to expand</summary>
@@ -69,3 +72,32 @@ dependencies {
 ```
 
 </details>
+
+## Compatibility Advice
+
+### Distance Checks
+
+Positions inside of sub-level plots are stored with extreme values. 
+In order to get the *global* distance between two points (either of which can be within a sub-level), companion has a utility.
+
+```java
+Level level = ...;
+Vec3 a = ...;
+Vec3 b = ...;
+
+// INCORRECT - distance will be extreme if one, or both of the positions are in the plot
+double incorrectDistanceSquared = a.distanceToSqr(b);
+
+// CORRECT - distance will be computed in global space
+double distanceSquared = SableCompanion.INSTANCE.distanceSquaredWithSubLevels(level, a, b);
+```
+
+Some distance checks are already safe, and do not require the use of companion.
+Sable already corrects the following:
+
+```java
+Entity#distanceToSqr(double x, double y, double z);
+Entity#distanceToSqr(Vec3 vec3);
+Entity#distanceToSqr(Entity entity);
+Entity#distanceTo(Entity entity);
+```
