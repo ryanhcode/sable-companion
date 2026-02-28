@@ -1,7 +1,7 @@
 package dev.ryanhcode.sable.companion.math;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.Util;
+import dev.ryanhcode.sable.companion.impl.SableCompanionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -22,7 +22,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
 
     public static final BoundingBox3ic EMPTY = new BoundingBox3i().setUnchecked(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-    public static Codec<BoundingBox3i> CODEC = Codec.INT.listOf().comapFlatMap((list) -> Util.fixedSize(list, 6).map(
+    public static Codec<BoundingBox3i> CODEC = Codec.INT.listOf().comapFlatMap((list) -> SableCompanionUtil.fixedSize(list, 6).map(
                     (iList) -> new BoundingBox3i(iList.getFirst(),
                             iList.get(1),
                             iList.get(2),

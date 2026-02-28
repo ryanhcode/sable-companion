@@ -2,13 +2,12 @@ package dev.ryanhcode.sable.companion.math;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.Util;
+import dev.ryanhcode.sable.companion.impl.SableCompanionUtil;
 import org.jetbrains.annotations.Contract;
 import org.joml.Quaterniond;
 import org.joml.Vector3d;
 
 import java.text.NumberFormat;
-import java.util.List;
 
 /**
  * A read-write 3D pose, consisting of a position, rotation, and scale.
@@ -18,21 +17,11 @@ import java.util.List;
 @SuppressWarnings("UnstableApiUsage")
 public final class Pose3d implements Pose3dc {
 
-    private static final Codec<Vector3d> VECTOR_3D_CODEC = Codec.DOUBLE.listOf()
-            .comapFlatMap(l -> Util.fixedSize(l, 3).map(
-                            list -> new Vector3d(list.getFirst(), list.get(1), list.get(2))),
-                    vec -> List.of(vec.x, vec.y, vec.z));
-
-    private static final Codec<Quaterniond> QUATERNIOND_CODEC = Codec.DOUBLE.listOf()
-            .comapFlatMap(l -> Util.fixedSize(l, 4).map(
-                            list -> new Quaterniond(list.getFirst(), list.get(1), list.get(2), list.get(3))),
-                    quat -> List.of(quat.x, quat.y, quat.z, quat.w));
-
     public static Codec<Pose3d> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            VECTOR_3D_CODEC.fieldOf("position").forGetter(Pose3d::position),
-            QUATERNIOND_CODEC.fieldOf("orientation").forGetter(Pose3d::orientation),
-            VECTOR_3D_CODEC.fieldOf("rotation_point").forGetter(Pose3d::rotationPoint),
-            VECTOR_3D_CODEC.fieldOf("scale").forGetter(Pose3d::scale)
+            SableCompanionUtil.VECTOR_3D_CODEC.fieldOf("position").forGetter(Pose3d::position),
+            SableCompanionUtil.QUATERNIOND_CODEC.fieldOf("orientation").forGetter(Pose3d::orientation),
+            SableCompanionUtil.VECTOR_3D_CODEC.fieldOf("rotation_point").forGetter(Pose3d::rotationPoint),
+            SableCompanionUtil.VECTOR_3D_CODEC.fieldOf("scale").forGetter(Pose3d::scale)
     ).apply(instance, Pose3d::new));
 
     private final Vector3d position;
