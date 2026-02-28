@@ -3,9 +3,11 @@ package dev.ryanhcode.sable.companion.math;
 import com.mojang.serialization.Codec;
 import dev.ryanhcode.sable.companion.impl.SableCompanionUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
 import org.joml.Matrix4d;
 import org.joml.Matrix4dc;
@@ -88,9 +90,22 @@ public final class BoundingBox3d implements BoundingBox3dc {
 
     /**
      * Creates a new bounding box with the given values
+     *
+     * @deprecated Use {@link #BoundingBox3d(Position, Position)} instead
      */
+    @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+    @Deprecated
     public BoundingBox3d(final Vec3 from, final Vec3 to) {
         this.set(from.x, from.y, from.z, to.x, to.y, to.z);
+    }
+
+    /**
+     * Creates a new bounding box with the given values
+     *
+     * @since 1.2.0
+     */
+    public BoundingBox3d(final Position from, final Position to) {
+        this.set(from.x(), from.y(), from.z(), to.x(), to.y(), to.z());
     }
 
     /**

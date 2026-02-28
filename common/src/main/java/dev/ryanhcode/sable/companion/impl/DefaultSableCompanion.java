@@ -5,6 +5,7 @@ import dev.ryanhcode.sable.companion.SubLevelAccess;
 import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Position;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
@@ -43,13 +44,28 @@ public final class DefaultSableCompanion implements SableCompanion {
     }
 
     @Override
-    public @Nullable <T> T runIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, T> converter) {
-        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin.x, origin.y, origin.z)) : null;
+    public Vec3 projectOutOfSubLevel(final Level level, final Position pos) {
+        return new Vec3(pos.x(), pos.y(), pos.z());
     }
 
     @Override
-    public boolean findIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, Boolean> converter) {
-        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin.x, origin.y, origin.z)) : false;
+    public @Nullable <T, S extends SubLevelAccess> T runIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final S subLevel, final BiFunction<S, BlockPos, T> converter) {
+        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin)) : null;
+    }
+
+    @Override
+    public @Nullable <T, S extends SubLevelAccess> T runIncludingSubLevels(final Level level, final Position origin, final boolean shouldCheckOrigin, @Nullable final S subLevel, final BiFunction<S, BlockPos, T> converter) {
+        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin)) : null;
+    }
+
+    @Override
+    public <S extends SubLevelAccess> boolean findIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final S subLevel, final BiFunction<@Nullable S, BlockPos, Boolean> converter) {
+        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin)) : false;
+    }
+
+    @Override
+    public <S extends SubLevelAccess> boolean findIncludingSubLevels(final Level level, final Position origin, final boolean shouldCheckOrigin, @Nullable final S subLevel, final BiFunction<@Nullable S, BlockPos, Boolean> converter) {
+        return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin)) : false;
     }
 
     @Override
@@ -58,8 +74,32 @@ public final class DefaultSableCompanion implements SableCompanion {
     }
 
     @Override
-    public double distanceSquaredWithSubLevels(final Level level, final Vec3 a, final Vec3 b) {
-        return a.distanceToSqr(b);
+    public double distanceSquaredWithSubLevels(final Level level, final Vector3dc a, final double bX, final double bY, final double bZ) {
+        return a.distanceSquared(bX, bY, bZ);
+    }
+
+    @Override
+    public double distanceSquaredWithSubLevels(final Level level, final Position a, final Position b) {
+        final double d0 = a.x() - b.x();
+        final double d1 = b.y() - b.y();
+        final double d2 = b.z() - b.z();
+        return d0 * d0 + d1 * d1 + d2 * d2;
+    }
+
+    @Override
+    public double distanceSquaredWithSubLevels(final Level level, final Position a, final double bX, final double bY, final double bZ) {
+        final double d0 = a.x() - bX;
+        final double d1 = a.y() - bY;
+        final double d2 = a.z() - bZ;
+        return d0 * d0 + d1 * d1 + d2 * d2;
+    }
+
+    @Override
+    public double distanceSquaredWithSubLevels(final Level level, final double aX, final double aY, final double aZ, final double bX, final double bY, final double bZ) {
+        final double d0 = aX - bX;
+        final double d1 = aY - bY;
+        final double d2 = aZ - bZ;
+        return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
     @Override
@@ -69,6 +109,11 @@ public final class DefaultSableCompanion implements SableCompanion {
 
     @Override
     public Vec3 getVelocity(final Level level, final Vec3 pos) {
+        return Vec3.ZERO;
+    }
+
+    @Override
+    public Vec3 getVelocity(final Level level, final Position pos) {
         return Vec3.ZERO;
     }
 
@@ -83,12 +128,22 @@ public final class DefaultSableCompanion implements SableCompanion {
     }
 
     @Override
+    public Vec3 getVelocity(final Level level, final SubLevelAccess subLevel, final Position pos) {
+        return Vec3.ZERO;
+    }
+
+    @Override
     public Vector3d getVelocityRelativeToAir(final Level level, final Vector3dc pos, final Vector3d dest) {
         return dest.zero();
     }
 
     @Override
     public Vec3 getVelocityRelativeToAir(final Level level, final Vec3 pos) {
+        return Vec3.ZERO;
+    }
+
+    @Override
+    public Vec3 getVelocityRelativeToAir(final Level level, final Position pos) {
         return Vec3.ZERO;
     }
 
