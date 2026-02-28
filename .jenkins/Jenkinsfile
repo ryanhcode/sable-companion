@@ -25,7 +25,11 @@ pipeline {
         stage('Publish') {
             steps {
                 echo 'Deploying to Maven'
-                sh './gradlew publish'
+                withCredentials([
+                    usernamePassword(credentialsId: 'publishing-user-credentials', usernameVariable: 'local_maven_user', passwordVariable: 'local_maven_token')
+                ]) {
+                    sh './gradlew publish'
+                }
             }
         }
     }
