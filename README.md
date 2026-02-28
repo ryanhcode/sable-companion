@@ -1,6 +1,6 @@
 # Sable Companion
 
-[![Sable 1.21.1](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.ryanhcode.dev%2Freleases%2Fdev%2Fryanhcode%2Fsable-companion%2Fsable-companion-1.21.1%2Fmaven-metadata.xml&label=Sable%201.21.1)]([-1.21.1/](https://maven.ryanhcode.dev/releases/dev/ryanhcode/sable-companion/sable-companion-1.21.1/))
+[![Sable Companion 1.21.x](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.ryanhcode.dev%2Freleases%2Fdev%2Fryanhcode%2Fsable-companion%2Fsable-companion-1.21.1%2Fmaven-metadata.xml&label=Sable%20Companion%201.21.x)]([-1.21.1/](https://maven.ryanhcode.dev/releases/dev/ryanhcode/sable-companion/sable-companion-1.21.1/))
 
 Companion is an extremely lightweight library for making mods compatible with [Sable](https://github.com/ryanhcode/sable).
 It is intended to be included or JiJ'd into mods, and contains a safe default implementation of all methods which is overridden by Sable when installed.
