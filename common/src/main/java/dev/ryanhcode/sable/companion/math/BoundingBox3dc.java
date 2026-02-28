@@ -331,11 +331,17 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
         return dest.set(this.maxX() - this.minX(), this.maxY() - this.minY(), this.maxZ() - this.minZ());
     }
 
+    /**
+     * @return The chunk sections this bounding box intersects
+     */
     @Contract(value = "->new", pure = true)
     default BoundingBox3i chunkBoundsFrom() {
         return this.chunkBoundsFrom(new BoundingBox3i());
     }
 
+    /**
+     * @return The chunk sections this bounding box intersects
+     */
     @Contract(value = "_->param1", mutates = "param1")
     default BoundingBox3i chunkBoundsFrom(final BoundingBox3i dest) {
         return dest.set(
@@ -349,8 +355,36 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
     }
 
     /**
+     * @return the encompassing X range
+     * @since 1.1.0
+     */
+    @Contract(pure = true)
+    default double width() {
+        return this.maxX() - this.minX() + 1;
+    }
+
+    /**
+     * @return the encompassing Y range
+     * @since 1.1.0
+     */
+    @Contract(pure = true)
+    default double height() {
+        return this.maxY() - this.minY() + 1;
+    }
+
+    /**
+     * @return the encompassing Z range
+     * @since 1.1.0
+     */
+    @Contract(pure = true)
+    default double length() {
+        return this.maxZ() - this.minZ() + 1;
+    }
+
+    /**
      * @return the volume of this box
      */
+    @Contract(pure = true)
     default double volume() {
         return (this.maxX() - this.minX()) * (this.maxY() - this.minY()) * (this.maxZ() - this.minZ());
     }
@@ -358,6 +392,7 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
     /**
      * @return a new Mojang bounding box with the same values as this box
      */
+    @Contract(value = "->new", pure = true)
     default AABB toMojang() {
         return new AABB(this.minX(), this.minY(), this.minZ(), this.maxX(), this.maxY(), this.maxZ());
     }

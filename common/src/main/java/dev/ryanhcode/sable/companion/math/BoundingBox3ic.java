@@ -247,11 +247,17 @@ public sealed interface BoundingBox3ic permits BoundingBox3i {
         return (this.maxX() - this.minX() + 1) * (this.maxY() - this.minY() + 1) * (this.maxZ() - this.minZ() + 1);
     }
 
+    /**
+     * @return The chunk sections this bounding box intersects
+     */
     @Contract(value = "->new", pure = true)
     default BoundingBox3i chunkBoundsFrom() {
         return this.chunkBoundsFrom(new BoundingBox3i());
     }
 
+    /**
+     * @return The chunk sections this bounding box intersects
+     */
     @Contract(value = "_->param1", mutates = "param1")
     default BoundingBox3i chunkBoundsFrom(final BoundingBox3i dest) {
         return dest.set(
@@ -264,6 +270,9 @@ public sealed interface BoundingBox3ic permits BoundingBox3i {
         );
     }
 
+    /**
+     * @return A new Minecraft {@link AABB} with the same bounds as this box
+     */
     @Contract(value = "->new", pure = true)
     default AABB toAABB() {
         return new AABB(
@@ -272,6 +281,9 @@ public sealed interface BoundingBox3ic permits BoundingBox3i {
         );
     }
 
+    /**
+     * @return A new Minecraft {@link BoundingBox} with the same bounds as this box
+     */
     @Contract(value = "->new", pure = true)
     default BoundingBox toMojang() {
         return new BoundingBox(
