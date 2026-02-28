@@ -1,6 +1,8 @@
 package dev.ryanhcode.sable.companion.math;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Contract;
 import org.joml.Matrix4d;
 import org.joml.Matrix4dc;
 import org.joml.Vector3d;
@@ -11,6 +13,7 @@ import org.joml.Vector3dc;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public sealed interface BoundingBox3dc permits BoundingBox3d {
 
     /**
@@ -132,14 +135,13 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
      * @return the result stored in dest
      */
     default BoundingBox3d expand(final double amount, final BoundingBox3d dest) {
-        dest.setUnchecked(
+        return dest.setUnchecked(
                 this.minX() - amount,
                 this.minY() - amount,
                 this.minZ() - amount,
                 this.maxX() + amount,
                 this.maxY() + amount,
                 this.maxZ() + amount);
-        return dest;
     }
 
     /**
@@ -152,14 +154,13 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
      * @return the result stored in dest
      */
     default BoundingBox3d expand(final double amountX, final double amountY, final double amountZ, final BoundingBox3d dest) {
-        dest.setUnchecked(
+        return dest.setUnchecked(
                 this.minX() - amountX,
                 this.minY() - amountY,
                 this.minZ() - amountZ,
                 this.maxX() + amountX,
                 this.maxY() + amountY,
                 this.maxZ() + amountZ);
-        return dest;
     }
 
     /**
@@ -172,14 +173,13 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
      * @return The result stored in dest
      */
     default BoundingBox3d move(final double amountX, final double amountY, final double amountZ, final BoundingBox3d dest) {
-        dest.setUnchecked(
+        return dest.setUnchecked(
                 this.minX() + amountX,
                 this.minY() + amountY,
                 this.minZ() + amountZ,
                 this.maxX() + amountX,
                 this.maxY() + amountY,
                 this.maxZ() + amountZ);
-        return dest;
     }
 
     /**
@@ -190,14 +190,13 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
      * @return The result stored in dest
      */
     default BoundingBox3d intersect(final BoundingBox3dc box, final BoundingBox3d dest) {
-        dest.setUnchecked(
+        return dest.setUnchecked(
                 Math.max(this.minX(), box.minX()),
                 Math.max(this.minY(), box.minY()),
                 Math.max(this.minZ(), box.minZ()),
                 Math.min(this.maxX(), box.maxX()),
                 Math.min(this.maxY(), box.maxY()),
                 Math.min(this.maxZ(), box.maxZ()));
-        return dest;
     }
 
     /**
@@ -330,6 +329,23 @@ public sealed interface BoundingBox3dc permits BoundingBox3d {
      */
     default Vector3d size(final Vector3d dest) {
         return dest.set(this.maxX() - this.minX(), this.maxY() - this.minY(), this.maxZ() - this.minZ());
+    }
+
+    @Contract(value = "->new", pure = true)
+    default BoundingBox3i chunkBoundsFrom() {
+        return this.chunkBoundsFrom(new BoundingBox3i());
+    }
+
+    @Contract(value = "_->param1", mutates = "param1")
+    default BoundingBox3i chunkBoundsFrom(final BoundingBox3i dest) {
+        return dest.set(
+                Mth.floor(this.minX()) >> 4,
+                Mth.floor(this.minY()) >> 4,
+                Mth.floor(this.minZ()) >> 4,
+                Mth.floor(this.maxX()) >> 4,
+                Mth.floor(this.maxY()) >> 4,
+                Mth.floor(this.maxZ()) >> 4
+        );
     }
 
     /**

@@ -1,5 +1,6 @@
 package dev.ryanhcode.sable.companion.math;
 
+import org.jetbrains.annotations.Contract;
 import org.joml.Vector3d;
 
 /**
@@ -7,6 +8,7 @@ import org.joml.Vector3d;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public final class JOMLConversion {
 
     /**
@@ -36,6 +38,7 @@ public final class JOMLConversion {
      * @param dest The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static Vector3d toJOML(final net.minecraft.core.Position vec3, final Vector3d dest) {
         return dest.set(vec3.x(), vec3.y(), vec3.z());
     }
@@ -46,10 +49,10 @@ public final class JOMLConversion {
      * @param vec3 the Mojang Vec3
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static Vector3d toJOML(final net.minecraft.core.Position vec3) {
         return new Vector3d(vec3.x(), vec3.y(), vec3.z());
     }
-
 
     /**
      * Converts a Mojang Vec2 to a JOML Vector2f.
@@ -58,6 +61,7 @@ public final class JOMLConversion {
      * @param dest The JOML vector to store into
      * @return The passed in JOML Vector2f
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static org.joml.Vector2f toJOML(final net.minecraft.world.phys.Vec2 vec2, final org.joml.Vector2f dest) {
         return dest.set(vec2.x, vec2.y);
     }
@@ -68,6 +72,7 @@ public final class JOMLConversion {
      * @param vec2 The Mojang Vec2
      * @return A new JOML Vector2f
      */
+    @Contract(value = "_->new", pure = true)
     public static org.joml.Vector2f toJOML(final net.minecraft.world.phys.Vec2 vec2) {
         return new org.joml.Vector2f(vec2.x, vec2.y);
     }
@@ -79,6 +84,7 @@ public final class JOMLConversion {
      * @param dest The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static org.joml.Vector3i toJOML(final net.minecraft.core.Vec3i vec3, final org.joml.Vector3i dest) {
         return dest.set(vec3.getX(), vec3.getY(), vec3.getZ());
     }
@@ -89,6 +95,7 @@ public final class JOMLConversion {
      * @param vec3 the Mojang Vec3i
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static org.joml.Vector3i toJOML(final net.minecraft.core.Vec3i vec3) {
         return new org.joml.Vector3i(vec3.getX(), vec3.getY(), vec3.getZ());
     }
@@ -100,6 +107,7 @@ public final class JOMLConversion {
      * @param dest   The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static Vector3d atLowerCornerOf(final net.minecraft.core.Vec3i toCopy, final Vector3d dest) {
         return dest.set(toCopy.getX(), toCopy.getY(), toCopy.getZ());
     }
@@ -110,6 +118,7 @@ public final class JOMLConversion {
      * @param toCopy The Mojang Vec3i
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static Vector3d atLowerCornerOf(final net.minecraft.core.Vec3i toCopy) {
         return new Vector3d(toCopy.getX(), toCopy.getY(), toCopy.getZ());
     }
@@ -124,6 +133,7 @@ public final class JOMLConversion {
      * @param dest    The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_,_,_,_->param5", mutates = "param5")
     public static Vector3d atLowerCornerWithOffset(final net.minecraft.core.Vec3i toCopy, final double offsetX, final double offsetY, final double offsetZ, final Vector3d dest) {
         return dest.set((double) toCopy.getX() + offsetX, (double) toCopy.getY() + offsetY, (double) toCopy.getZ() + offsetZ);
     }
@@ -137,6 +147,7 @@ public final class JOMLConversion {
      * @param offsetZ Offset in the z to add
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_,_,_,_->new", pure = true)
     public static Vector3d atLowerCornerWithOffset(final net.minecraft.core.Vec3i toCopy, final double offsetX, final double offsetY, final double offsetZ) {
         return new Vector3d((double) toCopy.getX() + offsetX, (double) toCopy.getY() + offsetY, (double) toCopy.getZ() + offsetZ);
     }
@@ -148,6 +159,7 @@ public final class JOMLConversion {
      * @param dest   The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static Vector3d atCenterOf(final net.minecraft.core.Vec3i toCopy, final Vector3d dest) {
         return dest.set((double) toCopy.getX() + 0.5, (double) toCopy.getY() + 0.5, (double) toCopy.getZ() + 0.5);
     }
@@ -158,6 +170,7 @@ public final class JOMLConversion {
      * @param toCopy The Mojang Vec3i
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static Vector3d atCenterOf(final net.minecraft.core.Vec3i toCopy) {
         return new Vector3d((double) toCopy.getX() + 0.5, (double) toCopy.getY() + 0.5, (double) toCopy.getZ() + 0.5);
     }
@@ -169,6 +182,7 @@ public final class JOMLConversion {
      * @param dest   The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static Vector3d atBottomCenterOf(final net.minecraft.core.Vec3i toCopy, final Vector3d dest) {
         return dest.set((double) toCopy.getX() + 0.5, toCopy.getY(), (double) toCopy.getZ() + 0.5);
     }
@@ -179,6 +193,7 @@ public final class JOMLConversion {
      * @param toCopy The Mojang Vec3i
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static Vector3d atBottomCenterOf(final net.minecraft.core.Vec3i toCopy) {
         return new Vector3d((double) toCopy.getX() + 0.5, toCopy.getY(), (double) toCopy.getZ() + 0.5);
     }
@@ -190,6 +205,7 @@ public final class JOMLConversion {
      * @param dest   The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
     public static Vector3d upFromBottomCenterOf(final net.minecraft.core.Vec3i toCopy, final double verticalOffset, final Vector3d dest) {
         return dest.set((double) toCopy.getX() + 0.5, (double) toCopy.getY() + verticalOffset, (double) toCopy.getZ() + 0.5);
     }
@@ -200,6 +216,7 @@ public final class JOMLConversion {
      * @param toCopy The Mojang Vec3i
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_,_->new", pure = true)
     public static Vector3d upFromBottomCenterOf(final net.minecraft.core.Vec3i toCopy, final double verticalOffset) {
         return new Vector3d((double) toCopy.getX() + 0.5, (double) toCopy.getY() + verticalOffset, (double) toCopy.getZ() + 0.5);
     }
@@ -210,6 +227,7 @@ public final class JOMLConversion {
      * @param vec3d the JOML Vector3d
      * @return the Mojang Vec3
      */
+    @Contract(value = "_->new", pure = true)
     public static net.minecraft.world.phys.Vec3 toMojang(final org.joml.Vector3dc vec3d) {
         return new net.minecraft.world.phys.Vec3(vec3d.x(), vec3d.y(), vec3d.z());
     }
@@ -220,6 +238,7 @@ public final class JOMLConversion {
      * @param vec2f the JOML Vector2f
      * @return the Mojang Vec2
      */
+    @Contract(value = "_->new", pure = true)
     public static net.minecraft.world.phys.Vec2 toMojang(final org.joml.Vector2fc vec2f) {
         return new net.minecraft.world.phys.Vec2(vec2f.x(), vec2f.y());
     }
@@ -230,6 +249,7 @@ public final class JOMLConversion {
      * @param vec3i the JOML Vector3d
      * @return the Mojang Vec3
      */
+    @Contract(value = "_->new", pure = true)
     public static net.minecraft.core.Vec3i toMojang(final org.joml.Vector3ic vec3i) {
         return new net.minecraft.core.Vec3i(vec3i.x(), vec3i.y(), vec3i.z());
     }
@@ -240,6 +260,7 @@ public final class JOMLConversion {
      * @param aabb The Mojang AABB
      * @return A new JOML Vector3d
      */
+    @Contract(value = "_->new", pure = true)
     public static Vector3d getAABBCenter(final net.minecraft.world.phys.AABB aabb) {
         return new Vector3d(
                 (aabb.minX + aabb.maxX) / 2.0,
@@ -254,6 +275,7 @@ public final class JOMLConversion {
      * @param dest The JOML vector to store into
      * @return The passed in JOML Vector3d
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     public static Vector3d getAABBCenter(final net.minecraft.world.phys.AABB aabb, final Vector3d dest) {
         return dest.set(
                 (aabb.minX + aabb.maxX) / 2.0,

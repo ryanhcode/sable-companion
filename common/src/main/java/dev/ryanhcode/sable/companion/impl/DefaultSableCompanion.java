@@ -23,77 +23,77 @@ import java.util.function.BiFunction;
 public final class DefaultSableCompanion implements SableCompanion {
 
     @Override
-    public Iterable<SubLevelAccess> getAllIntersecting(Level level, BoundingBox3dc bounds) {
+    public Iterable<SubLevelAccess> getAllIntersecting(final Level level, final BoundingBox3dc bounds) {
         return List.of();
     }
 
     @Override
-    public @Nullable SubLevelAccess getContaining(Level level, int chunkX, int chunkZ) {
+    public @Nullable SubLevelAccess getContaining(final Level level, final int chunkX, final int chunkZ) {
         return null;
     }
 
     @Override
-    public Vector3d projectOutOfSubLevel(Level level, Vector3dc pos, Vector3d dest) {
+    public Vector3d projectOutOfSubLevel(final Level level, final Vector3dc pos, final Vector3d dest) {
         return dest.set(pos);
     }
 
     @Override
-    public Vec3 projectOutOfSubLevel(Level level, Vec3 pos) {
+    public Vec3 projectOutOfSubLevel(final Level level, final Vec3 pos) {
         return pos;
     }
 
     @Override
-    public @Nullable <T> T runIncludingSubLevels(Level level, Vec3 origin, boolean shouldCheckOrigin, @Nullable SubLevelAccess subLevel, BiFunction<@Nullable SubLevelAccess, BlockPos, T> converter) {
+    public @Nullable <T> T runIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, T> converter) {
         return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin.x, origin.y, origin.z)) : null;
     }
 
     @Override
-    public boolean findIncludingSubLevels(Level level, Vec3 origin, boolean shouldCheckOrigin, @Nullable SubLevelAccess subLevel, BiFunction<@Nullable SubLevelAccess, BlockPos, Boolean> converter) {
+    public boolean findIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, Boolean> converter) {
         return shouldCheckOrigin ? converter.apply(subLevel, BlockPos.containing(origin.x, origin.y, origin.z)) : false;
     }
 
     @Override
-    public double distanceSquaredWithSubLevels(Level level, Vector3dc a, Vector3dc b) {
+    public double distanceSquaredWithSubLevels(final Level level, final Vector3dc a, final Vector3dc b) {
         return a.distanceSquared(b);
     }
 
     @Override
-    public double distanceSquaredWithSubLevels(Level level, Vec3 a, Vec3 b) {
+    public double distanceSquaredWithSubLevels(final Level level, final Vec3 a, final Vec3 b) {
         return a.distanceToSqr(b);
     }
 
     @Override
-    public Vector3d getVelocity(Level level, Vector3dc pos, Vector3d dest) {
+    public Vector3d getVelocity(final Level level, final Vector3dc pos, final Vector3d dest) {
         return dest.zero();
     }
 
     @Override
-    public Vec3 getVelocity(Level level, Vec3 pos) {
+    public Vec3 getVelocity(final Level level, final Vec3 pos) {
         return Vec3.ZERO;
     }
 
     @Override
-    public Vector3d getVelocity(Level level, SubLevelAccess subLevel, Vector3dc pos, Vector3d dest) {
+    public Vector3d getVelocity(final Level level, final SubLevelAccess subLevel, final Vector3dc pos, final Vector3d dest) {
         return dest.zero();
     }
 
     @Override
-    public Vec3 getVelocity(Level level, SubLevelAccess subLevel, Vec3 pos) {
+    public Vec3 getVelocity(final Level level, final SubLevelAccess subLevel, final Vec3 pos) {
         return Vec3.ZERO;
     }
 
     @Override
-    public Vector3d getVelocityRelativeToAir(Level level, Vector3dc pos, Vector3d dest) {
+    public Vector3d getVelocityRelativeToAir(final Level level, final Vector3dc pos, final Vector3d dest) {
         return dest.zero();
     }
 
     @Override
-    public Vec3 getVelocityRelativeToAir(Level level, Vec3 pos) {
+    public Vec3 getVelocityRelativeToAir(final Level level, final Vec3 pos) {
         return Vec3.ZERO;
     }
 
     @Override
-    public boolean isInPlotGrid(Level level, int chunkX, int chunkZ) {
+    public boolean isInPlotGrid(final Level level, final int chunkX, final int chunkZ) {
         return false;
     }
 

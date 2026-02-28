@@ -9,26 +9,31 @@ import org.joml.*;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public sealed interface Pose3dc permits Pose3d {
 
     /**
      * @return the global position of this pose.
      */
+    @Contract(pure = true)
     Vector3dc position();
 
     /**
      * @return the global orientation of this pose.
      */
+    @Contract(pure = true)
     Quaterniondc orientation();
 
     /**
      * @return the rotation point of this pose.
      */
+    @Contract(pure = true)
     Vector3dc rotationPoint();
 
     /**
      * @return the global scale of this pose.
      */
+    @Contract(pure = true)
     Vector3dc scale();
 
     /**
@@ -38,6 +43,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest  will hold the result
      * @return dest
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     default Vector3d transformPosition(final Vector3dc local, final Vector3d dest) {
         return this.orientation().transform(local.sub(this.rotationPoint(), dest).mul(this.scale())).add(this.position());
     }
@@ -48,7 +54,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param local the local position to transform
      * @return a new vector holding the result
      */
-    @Contract("_ -> new")
+    @Contract(value = "_->new", pure = true)
     default Vec3 transformPosition(final Vec3 local) {
         return JOMLConversion.toMojang(this.transformPosition(JOMLConversion.toJOML(local)));
     }
@@ -59,7 +65,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param global the global position to transform
      * @return a new vector holding the result
      */
-    @Contract("_ -> new")
+    @Contract(value = "_->new", pure = true)
     default Vec3 transformPositionInverse(final Vec3 global) {
         return JOMLConversion.toMojang(this.transformPositionInverse(JOMLConversion.toJOML(global)));
     }
@@ -71,6 +77,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest   will hold the result
      * @return dest
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     default Vector3d transformPositionInverse(final Vector3dc global, final Vector3d dest) {
         final Vector3dc s = this.scale();
         return this.orientation().transformInverse(global.sub(this.position(), dest))
@@ -88,6 +95,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest  will hold the result
      * @return dest
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     default Vector3d transformNormal(final Vector3dc local, final Vector3d dest) {
         return this.orientation().transform(local.mul(this.scale(), dest));
     }
@@ -100,6 +108,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest   will hold the result
      * @return dest
      */
+    @Contract(value = "_,_->param2", mutates = "param2")
     default Vector3d transformNormalInverse(final Vector3dc global, final Vector3d dest) {
         final Vector3dc s = this.scale();
         return this.orientation().transformInverse(global, dest)
@@ -115,6 +124,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param local the local position to transform
      * @return local with the result
      */
+    @Contract(value = "_->param1", mutates = "param1")
     default Vector3d transformPosition(final Vector3d local) {
         return this.transformPosition(local, local);
     }
@@ -125,6 +135,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param global the global position to transform
      * @return global with the result
      */
+    @Contract(value = "_->param1", mutates = "param1")
     default Vector3d transformPositionInverse(final Vector3d global) {
         return this.transformPositionInverse(global, global);
     }
@@ -136,6 +147,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param local the local normal to transform
      * @return local with the result
      */
+    @Contract(value = "_->param1", mutates = "param1")
     default Vector3d transformNormal(final Vector3d local) {
         return this.transformNormal(local, local);
     }
@@ -147,6 +159,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param global the global normal to transform
      * @return global with the result
      */
+    @Contract(value = "_->param1", mutates = "param1")
     default Vector3d transformNormalInverse(final Vector3d global) {
         return this.transformNormalInverse(global, global);
     }
@@ -158,6 +171,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param local the local normal to transform
      * @return local with the result
      */
+    @Contract(value = "_->new", pure = true)
     default Vec3 transformNormal(final Vec3 local) {
         return JOMLConversion.toMojang(this.transformNormal(JOMLConversion.toJOML(local)));
     }
@@ -169,6 +183,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param global the global normal to transform
      * @return global with the result
      */
+    @Contract(value = "_->new", pure = true)
     default Vec3 transformNormalInverse(final Vec3 global) {
         return JOMLConversion.toMojang(this.transformNormalInverse(JOMLConversion.toJOML(global)));
     }
@@ -181,6 +196,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest The destination pose to write into
      * @return The dest pose
      */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
     default Pose3d lerp(final Pose3dc pose, final double frac, final Pose3d dest) {
         this.position().lerp(pose.position(), frac, dest.position());
         this.orientation().nlerp(pose.orientation(), frac, dest.orientation());
@@ -195,12 +211,14 @@ public sealed interface Pose3dc permits Pose3d {
      * @param dest will hold the result
      * @return dest
      */
+    @Contract(value = "_->param1", mutates = "param1")
     default Matrix4d bakeIntoMatrix(final Matrix4d dest) {
+        final Vector3dc rotationPoint = this.rotationPoint();
         return dest.identity()
                 .translate(this.position())
                 .rotate(this.orientation())
                 .scale(this.scale())
-                .translate(-this.rotationPoint().x(), -this.rotationPoint().y(), -this.rotationPoint().z());
+                .translate(-rotationPoint.x(), -rotationPoint.y(), -rotationPoint.z());
     }
 
     /**
@@ -209,6 +227,7 @@ public sealed interface Pose3dc permits Pose3d {
      * @param angularTolerance  the angular tolerance [rad]
      * @return if this pose is within the distance tolerance and angular tolerance of another pose
      */
+    @Contract(pure = true)
     default boolean withinTolerance(final Pose3d pose3d, final double distanceTolerance, final double angularTolerance) {
         return this.position().distanceSquared(pose3d.position()) <= distanceTolerance * distanceTolerance
                 && this.rotationPoint().distanceSquared(pose3d.rotationPoint()) <= distanceTolerance * distanceTolerance

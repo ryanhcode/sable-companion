@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Contract;
 import org.joml.Matrix4d;
 import org.joml.Matrix4dc;
 import org.joml.Vector3dc;
@@ -17,6 +18,7 @@ import java.util.List;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public final class BoundingBox3d implements BoundingBox3dc {
 
     public static final BoundingBox3d EMPTY = new BoundingBox3d(0, 0, 0, 0, 0, 0);
@@ -101,6 +103,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
     /**
      * Sets the bounding box to the given values
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d set(final BoundingBox3dc other) {
         this.set(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(), other.maxZ());
         return this;
@@ -109,6 +112,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
     /**
      * Sets the bounding box to the given values
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d set(final AABB other) {
         this.set(other.minX, other.minY, other.minZ, other.maxX, other.maxY, other.maxZ);
         return this;
@@ -118,39 +122,47 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * Sets the bounding box to the given values.
      * Automatically swaps the values to ensure min values are less than max values.
      */
-    public void set(final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ) {
+    @Contract(value = "_,_,_,_,_,_->this", mutates = "this")
+    public BoundingBox3d set(final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ) {
         this.minX = Math.min(minX, maxX);
         this.minY = Math.min(minY, maxY);
         this.minZ = Math.min(minZ, maxZ);
         this.maxX = Math.max(minX, maxX);
         this.maxY = Math.max(minY, maxY);
         this.maxZ = Math.max(minZ, maxZ);
+        return this;
     }
 
     /**
      * Sets the bounding box to the given values.
-     * Does NOT automatically swap mins/maxes if swapped.
+     * <br>
+     * <strong>Does NOT automatically swap mins/maxes if swapped.</strong>
      */
-    public void setUnchecked(final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ) {
+    @Contract(value = "_,_,_,_,_,_->this", mutates = "this")
+    public BoundingBox3d setUnchecked(final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ) {
         this.minX = minX;
         this.minY = minY;
         this.minZ = minZ;
         this.maxX = maxX;
         this.maxY = maxY;
         this.maxZ = maxZ;
+        return this;
     }
 
     /**
      * Sets the bounding box to the given values.
-     * Does NOT automatically swap mins/maxes if swapped.
+     * <br>
+     * <strong>Does NOT automatically swap mins/maxes if swapped.</strong>
      */
-    public void setUnchecked(final BoundingBox3dc other) {
+    @Contract(value = "_->this", mutates = "this")
+    public BoundingBox3d setUnchecked(final BoundingBox3dc other) {
         this.minX = other.minX();
         this.minY = other.minY();
         this.minZ = other.minZ();
         this.maxX = other.maxX();
         this.maxY = other.maxY();
         this.maxZ = other.maxZ();
+        return this;
     }
 
     /**
@@ -159,6 +171,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param point the point to include
      * @return the result stored in dest
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d expandTo(final Vector3dc point) {
         return this.expandTo(point.x(), point.y(), point.z());
     }
@@ -171,6 +184,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param z the z value of the point
      * @return this
      */
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3d expandTo(final double x, final double y, final double z) {
         return this.expandTo(x, y, z, this);
     }
@@ -181,6 +195,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param other the box to include
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d expandTo(final BoundingBox3dc other) {
         return this.expandTo(other, this);
     }
@@ -191,6 +206,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param amount the amount to expand by
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d expand(final double amount) {
         return this.expand(amount, amount, amount);
     }
@@ -203,6 +219,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param amountZ the amount to expand by in the z
      * @return this
      */
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3d expand(final double amountX, final double amountY, final double amountZ) {
         return this.expand(amountX, amountY, amountZ, this);
     }
@@ -215,6 +232,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param amountZ The amount to move by in the z
      * @return this
      */
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3d move(final double amountX, final double amountY, final double amountZ) {
         return this.move(amountX, amountY, amountZ, this);
     }
@@ -225,6 +243,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param box The box to intersect with
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d intersect(final BoundingBox3dc box) {
         return this.intersect(box, this);
     }
@@ -236,6 +255,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param pose the pose to transform by
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d transform(final Pose3dc pose) {
         return this.transform(pose, this);
     }
@@ -247,6 +267,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param pose the pose to transform by
      * @return this
      */
+    @Contract(value = "_,_->this", mutates = "this")
     public BoundingBox3d transform(final Pose3dc pose, final Matrix4d bakedMatrix) {
         return this.transform(pose, bakedMatrix, this);
     }
@@ -258,6 +279,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param mpose the pose to transform by
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d transform(final Matrix4dc mpose) {
         return this.transform(mpose, this);
     }
@@ -269,6 +291,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param pose the pose to transform by
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d transformInverse(final Pose3dc pose) {
         return this.transformInverse(pose, this);
     }
@@ -280,6 +303,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param pose the pose to transform by
      * @return this
      */
+    @Contract(value = "_,_->this", mutates = "this")
     public BoundingBox3d transformInverse(final Pose3dc pose, final Matrix4d bakedMatrix) {
         return this.transformInverse(pose, bakedMatrix, this);
     }
@@ -291,6 +315,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
      * @param mpose the pose to transform by
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3d transformInverse(final Matrix4dc mpose) {
         return this.transformInverse(mpose, this);
     }

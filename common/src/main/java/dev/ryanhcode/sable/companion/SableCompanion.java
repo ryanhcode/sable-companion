@@ -12,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
@@ -25,6 +26,7 @@ import java.util.function.BiFunction;
 /**
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public interface SableCompanion {
 
     /**
@@ -56,6 +58,7 @@ public interface SableCompanion {
      * @param bounds The bounding box to check. <br><strong>NOTE: the bounds must NOT be modified during the iteration.
      *               this will cause undefined behavior!</strong>
      */
+    @Contract(pure = true)
     Iterable<SubLevelAccess> getAllIntersecting(final Level level, final BoundingBox3dc bounds);
 
     /**
@@ -66,6 +69,7 @@ public interface SableCompanion {
      * @param chunkZ the global chunk Z position
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     @Nullable SubLevelAccess getContaining(final Level level, final int chunkX, final int chunkZ);
 
     /**
@@ -75,6 +79,7 @@ public interface SableCompanion {
      * @param chunkPos the global chunk position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Level level, final ChunkPos chunkPos) {
         return this.getContaining(level, chunkPos.x, chunkPos.z);
     }
@@ -86,6 +91,7 @@ public interface SableCompanion {
      * @param pos   the global block position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Level level, final Vec3i pos) {
         return this.getContaining(level, pos.getX() >> SectionPos.SECTION_BITS, pos.getZ() >> SectionPos.SECTION_BITS);
     }
@@ -97,6 +103,7 @@ public interface SableCompanion {
      * @param pos   the global position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Level level, final Position pos) {
         return this.getContaining(level, Mth.floor(pos.x()) >> SectionPos.SECTION_BITS, Mth.floor(pos.z()) >> SectionPos.SECTION_BITS);
     }
@@ -108,6 +115,7 @@ public interface SableCompanion {
      * @param pos   the global position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Level level, final Vector3dc pos) {
         return this.getContaining(level, Mth.floor(pos.x()) >> SectionPos.SECTION_BITS, Mth.floor(pos.z()) >> SectionPos.SECTION_BITS);
     }
@@ -118,6 +126,7 @@ public interface SableCompanion {
      * @param entity the entity to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Entity entity) {
         return this.getContaining(entity.level(), entity.chunkPosition());
     }
@@ -128,6 +137,7 @@ public interface SableCompanion {
      * @param blockEntity the block-entity to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final BlockEntity blockEntity) {
         return this.getContaining(blockEntity.getLevel(), blockEntity.getBlockPos());
     }
@@ -138,6 +148,7 @@ public interface SableCompanion {
      * @param pos the global position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable ClientSubLevelAccess getContainingClient(final Position pos) {
         return (ClientSubLevelAccess) this.getContaining(this.getClientLevel(), pos);
     }
@@ -148,6 +159,7 @@ public interface SableCompanion {
      * @param pos the global position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable ClientSubLevelAccess getContainingClient(final Vector3dc pos) {
         return (ClientSubLevelAccess) this.getContaining(this.getClientLevel(), pos);
     }
@@ -158,6 +170,7 @@ public interface SableCompanion {
      * @param pos the global position to check
      * @return the sub-level that contains the point, or null if none do
      */
+    @Contract(pure = true)
     default @Nullable ClientSubLevelAccess getContainingClient(final Vec3i pos) {
         return (ClientSubLevelAccess) this.getContaining(this.getClientLevel(), pos);
     }
@@ -169,6 +182,7 @@ public interface SableCompanion {
      * @param pos   the point to project
      * @return the projected point
      */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
     Vector3d projectOutOfSubLevel(final Level level, final Vector3dc pos, final Vector3d dest);
 
     /**
@@ -178,6 +192,7 @@ public interface SableCompanion {
      * @param pos   the point to project
      * @return the projected point
      */
+    @Contract(value = "_,_->new", pure = true)
     Vec3 projectOutOfSubLevel(final Level level, final Vec3 pos);
 
     /**
@@ -193,6 +208,7 @@ public interface SableCompanion {
      * @return The resulting value from the converter, or null if nothing is found for all 3 check sets that are done
      */
     @Nullable
+    @Contract(pure = true)
     <T> T runIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, T> converter);
 
     /**
@@ -206,6 +222,7 @@ public interface SableCompanion {
      * @param converter         The function to convert a BlockPos to a boolean value
      * @return True if any of the checks returned true, otherwise false
      */
+    @Contract(pure = true)
     boolean findIncludingSubLevels(final Level level, final Vec3 origin, final boolean shouldCheckOrigin, @Nullable final SubLevelAccess subLevel, final BiFunction<@Nullable SubLevelAccess, BlockPos, Boolean> converter);
 
     /**
@@ -216,6 +233,7 @@ public interface SableCompanion {
      * @param b     the second point
      * @return the distance squared between the two points
      */
+    @Contract(pure = true)
     double distanceSquaredWithSubLevels(final Level level, final Vector3dc a, final Vector3dc b);
 
     /**
@@ -226,6 +244,7 @@ public interface SableCompanion {
      * @param b     the second point
      * @return the distance squared between the two points
      */
+    @Contract(pure = true)
     double distanceSquaredWithSubLevels(final Level level, final Vec3 a, final Vec3 b);
 
     /**
@@ -236,6 +255,7 @@ public interface SableCompanion {
      * @param dest  the vector to hold the result
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
     Vector3d getVelocity(final Level level, final Vector3dc pos, final Vector3d dest);
 
     /**
@@ -245,6 +265,7 @@ public interface SableCompanion {
      * @param pos   the position of the point
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(value = "_,_->new", pure = true)
     Vec3 getVelocity(final Level level, final Vec3 pos);
 
     /**
@@ -256,6 +277,7 @@ public interface SableCompanion {
      * @param dest     the vector to hold the result
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(value = "_,_,_,_->param4", mutates = "param4")
     Vector3d getVelocity(final Level level, final SubLevelAccess subLevel, final Vector3dc pos, final Vector3d dest);
 
     /**
@@ -266,6 +288,7 @@ public interface SableCompanion {
      * @param pos      the position of the point
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(value = "_,_,_->new", pure = true)
     Vec3 getVelocity(final Level level, final SubLevelAccess subLevel, final Vec3 pos);
 
     /**
@@ -276,6 +299,7 @@ public interface SableCompanion {
      * @param dest  the vector to hold the result
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
     Vector3d getVelocityRelativeToAir(final Level level, final Vector3dc pos, final Vector3d dest);
 
     /**
@@ -285,6 +309,7 @@ public interface SableCompanion {
      * @param pos   the position of the point
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @Contract(pure = true)
     Vec3 getVelocityRelativeToAir(final Level level, final Vec3 pos);
 
     /**
@@ -295,6 +320,7 @@ public interface SableCompanion {
      * @param chunkZ the global chunk Z position
      * @return If the chunk is inside the plot-grid
      */
+    @Contract(pure = true)
     boolean isInPlotGrid(final Level level, final int chunkX, final int chunkZ);
 
     /**
@@ -304,6 +330,7 @@ public interface SableCompanion {
      * @param chunkPos the global chunk position
      * @return If the chunk is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final Level level, final ChunkPos chunkPos) {
         return this.isInPlotGrid(level, chunkPos.x, chunkPos.z);
     }
@@ -315,6 +342,7 @@ public interface SableCompanion {
      * @param pos   the global position to check
      * @return If the block is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final Level level, final Vec3i pos) {
         return this.isInPlotGrid(level, pos.getX() >> SectionPos.SECTION_BITS, pos.getZ() >> SectionPos.SECTION_BITS);
     }
@@ -326,6 +354,7 @@ public interface SableCompanion {
      * @param pos   the global position to check
      * @return If the point is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final Level level, final Position pos) {
         return this.isInPlotGrid(level, Mth.floor(pos.x()) >> SectionPos.SECTION_BITS, Mth.floor(pos.z()) >> SectionPos.SECTION_BITS);
     }
@@ -337,6 +366,7 @@ public interface SableCompanion {
      * @param pos   the global position to check
      * @return If the point is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final Level level, final Vector3dc pos) {
         return this.isInPlotGrid(level, Mth.floor(pos.x()) >> SectionPos.SECTION_BITS, Mth.floor(pos.z()) >> SectionPos.SECTION_BITS);
     }
@@ -347,6 +377,7 @@ public interface SableCompanion {
      * @param entity The entity to check
      * @return If the entity is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final Entity entity) {
         return this.isInPlotGrid(entity.level(), entity.chunkPosition());
     }
@@ -357,6 +388,7 @@ public interface SableCompanion {
      * @param blockEntity The block entity to check
      * @return If the block entity is inside the plot-grid
      */
+    @Contract(pure = true)
     default boolean isInPlotGrid(final BlockEntity blockEntity) {
         return this.isInPlotGrid(blockEntity.getLevel(), blockEntity.getBlockPos());
     }

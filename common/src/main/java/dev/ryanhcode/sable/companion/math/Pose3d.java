@@ -3,6 +3,7 @@ package dev.ryanhcode.sable.companion.math;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
+import org.jetbrains.annotations.Contract;
 import org.joml.Quaterniond;
 import org.joml.Vector3d;
 
@@ -14,6 +15,7 @@ import java.util.List;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public final class Pose3d implements Pose3dc {
 
     private static final Codec<Vector3d> VECTOR_3D_CODEC = Codec.DOUBLE.listOf()
@@ -78,6 +80,7 @@ public final class Pose3d implements Pose3dc {
      * @param pose the pose to copy
      * @return this
      */
+    @Contract(value = "_->this", mutates = "this")
     public Pose3d set(final Pose3dc pose) {
         this.position.set(pose.position());
         this.orientation.set(pose.orientation());
@@ -93,6 +96,7 @@ public final class Pose3d implements Pose3dc {
      * @param frac the amount to lerp by, 0.0 to 1.0
      * @return this
      */
+    @Contract(value = "_,_->this", mutates = "this")
     public Pose3d lerp(final Pose3dc pose, final double frac) {
         return this.lerp(pose, frac, this);
     }

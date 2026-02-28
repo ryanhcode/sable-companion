@@ -5,6 +5,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3ic;
 
@@ -16,6 +17,7 @@ import java.util.List;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("UnstableApiUsage")
 public final class BoundingBox3i implements BoundingBox3ic {
 
     public static final BoundingBox3ic EMPTY = new BoundingBox3i().setUnchecked(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -83,30 +85,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
         this.set(Mth.floor(other.minX), Mth.floor(other.minY), Mth.floor(other.minZ), Mth.floor(other.maxX), Mth.floor(other.maxY), Mth.floor(other.maxZ));
     }
 
-    public static BoundingBox3i chunkBoundsFrom(final BoundingBox3dc blockBounds, final BoundingBox3i dest) {
-        return dest.set(new BoundingBox3i(
-                Mth.floor(blockBounds.minX()) >> 4,
-                Mth.floor(blockBounds.minY()) >> 4,
-                Mth.floor(blockBounds.minZ()) >> 4,
-                Mth.floor(blockBounds.maxX()) >> 4,
-                Mth.floor(blockBounds.maxY()) >> 4,
-                Mth.floor(blockBounds.maxZ()) >> 4
-        ));
-    }
-
-    public static BoundingBox3i chunkBoundsFrom(final BoundingBox3ic blockBounds, final BoundingBox3i dest) {
-        return dest.set(new BoundingBox3i(
-                Mth.floor(blockBounds.minX()) >> 4,
-                Mth.floor(blockBounds.minY()) >> 4,
-                Mth.floor(blockBounds.minZ()) >> 4,
-                Mth.floor(blockBounds.maxX()) >> 4,
-                Mth.floor(blockBounds.maxY()) >> 4,
-                Mth.floor(blockBounds.maxZ()) >> 4
-        ));
-    }
-
-    @Nullable
-    public static BoundingBox3i from(final Iterable<BlockPos> blocks) {
+    public static @Nullable BoundingBox3i from(final Iterable<BlockPos> blocks) {
         final Iterator<BlockPos> iterator = blocks.iterator();
         if (!iterator.hasNext()) {
             return null;
@@ -136,6 +115,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
     /**
      * Sets the bounding box to the given values
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i set(final BoundingBox3d other) {
         this.set(Mth.floor(other.minX), Mth.floor(other.minY), Mth.floor(other.minZ), Mth.floor(other.maxX), Mth.floor(other.maxY), Mth.floor(other.maxZ));
         return this;
@@ -144,6 +124,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
     /**
      * Sets the bounding box to the given values
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i set(final BoundingBox3ic other) {
         this.set(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(), other.maxZ());
         return this;
@@ -152,6 +133,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
     /**
      * Sets the bounding box to the given values
      */
+    @Contract(value = "_,_,_,_,_,_->this", mutates = "this")
     public BoundingBox3i set(final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ) {
         this.minX = Math.min(minX, maxX);
         this.minY = Math.min(minY, maxY);
@@ -165,8 +147,10 @@ public final class BoundingBox3i implements BoundingBox3ic {
 
     /**
      * Sets the bounding box to the given values.
-     * Does NOT automatically swap mins/maxes if swapped.
+     * <br>
+     * <strong>Does NOT automatically swap mins/maxes if swapped.</strong>
      */
+    @Contract(value = "_,_,_,_,_,_->this", mutates = "this")
     public BoundingBox3i setUnchecked(final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ) {
         this.minX = minX;
         this.minY = minY;
@@ -179,8 +163,10 @@ public final class BoundingBox3i implements BoundingBox3ic {
 
     /**
      * Sets the bounding box to the given values.
-     * Does NOT automatically swap mins/maxes if swapped.
+     * <br>
+     * <strong>Does NOT automatically swap mins/maxes if swapped.</strong>
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i setUnchecked(final BoundingBox3ic other) {
         this.minX = other.minX();
         this.minY = other.minY();
@@ -191,6 +177,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
         return this;
     }
 
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3i expand(final int xExpansion, final int yExpansion, final int zExpansion) {
         this.minX -= xExpansion;
         this.minY -= yExpansion;
@@ -207,6 +194,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param point the point to include
      * @return the result stored in this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i expandTo(final Vector3ic point) {
         return this.expandTo(point, this);
     }
@@ -219,6 +207,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param z the z value of the point
      * @return the result stored in this
      */
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3i expandTo(final int x, final int y, final int z) {
         return this.expandTo(x, y, z, this);
     }
@@ -229,6 +218,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param other the box to include
      * @return the result stored in this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i expandTo(final BoundingBox3ic other) {
         return this.expandTo(other, this);
     }
@@ -239,6 +229,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param vec the vector to translate by
      * @return the result stored in this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i move(final Vector3ic vec) {
         return this.move(vec.x(), vec.y(), vec.z(), this);
     }
@@ -251,6 +242,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param z the z value of the vector
      * @return the result stored in this
      */
+    @Contract(value = "_,_,_->this", mutates = "this")
     public BoundingBox3i move(final int x, final int y, final int z) {
         return this.move(x, y, z, this);
     }
@@ -261,6 +253,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
      * @param box The box to intersect with
      * @return the result stored in this
      */
+    @Contract(value = "_->this", mutates = "this")
     public BoundingBox3i intersect(final BoundingBox3ic box) {
         return this.set(
                 Math.max(this.minX(), box.minX()),
