@@ -5,25 +5,33 @@ plugins {
 
 neoForge {
     neoFormVersion = neo_form_version
+
     parchment {
         minecraftVersion = parchment_minecraft
         mappingsVersion = parchment_version
     }
 }
 
-configurations {
-    commonJava {
-        canBeResolved = false
-        canBeConsumed = true
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = base.archivesName.get()
+            from components.java
+        }
     }
-    commonResources {
-        canBeResolved = false
-        canBeConsumed = true
+
+    repositories {
+        maven {
+            url = "https://maven.ryanhcode.dev/"
+
+            credentials {
+                username = System.getenv('local_maven_user')
+                password = System.getenv('local_maven_token')
+            }
+
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
     }
 }
-
-artifacts {
-    commonJava sourceSets.main.java.sourceDirectories.singleFile
-    commonResources sourceSets.main.resources.sourceDirectories.singleFile
-}
-
