@@ -22,7 +22,7 @@ publishing {
 
     repositories {
         maven {
-            url = "https://maven.ryanhcode.dev/"
+            url = System.getenv('local_maven_url')
 
             credentials {
                 username = System.getenv('local_maven_user')
