@@ -9,7 +9,7 @@
   ],
   "contact": {
     "sources": "https://github.com/ryanhcode/sable-companion",
-    "issues": "${issue_tracker_url}"
+    "issues": "${issues}"
   },
   "license": "${license}",
   "icon": "${mod_id}.png",

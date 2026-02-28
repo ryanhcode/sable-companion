@@ -1,7 +1,7 @@
 modLoader = "javafml" #mandatory
 loaderVersion = "${neoforge_loader_version_range}" #mandatory
 license = "${license}" # Review your options at https://choosealicense.com/.
-issueTrackerURL="${issue_tracker_url}" #optional
+issueTrackerURL="${issues}" #optional
 [[mods]] #mandatory
 modId = "${mod_id}" #mandatory
 version = "${version}" #mandatory
