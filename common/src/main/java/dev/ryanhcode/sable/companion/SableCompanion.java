@@ -90,6 +90,19 @@ public interface SableCompanion {
      * @param level the level to check
      * @param pos   the global block position to check
      * @return the sub-level that contains the point, or null if none do
+     * @since 1.4.0
+     */
+    @Contract(pure = true)
+    default @Nullable SubLevelAccess getContaining(final Level level, final SectionPos pos) {
+        return this.getContaining(level, pos.getX(), pos.getZ());
+    }
+
+    /**
+     * Gets the sub-level that contains the given point in its plot, or null if none do
+     *
+     * @param level the level to check
+     * @param pos   the global block position to check
+     * @return the sub-level that contains the point, or null if none do
      */
     @Contract(pure = true)
     default @Nullable SubLevelAccess getContaining(final Level level, final Vec3i pos) {
@@ -200,6 +213,18 @@ public interface SableCompanion {
      */
     @Contract(pure = true)
     default @Nullable ClientSubLevelAccess getContainingClient(final Vector3dc pos) {
+        return (ClientSubLevelAccess) this.getContaining(this.getClientLevel(), pos);
+    }
+
+    /**
+     * Gets the sub-level that contains the given point in its plot, or null if none do in the client level
+     *
+     * @param pos the global position to check
+     * @return the sub-level that contains the point, or null if none do
+     * @since 1.4.0
+     */
+    @Contract(pure = true)
+    default @Nullable ClientSubLevelAccess getContainingClient(final SectionPos pos) {
         return (ClientSubLevelAccess) this.getContaining(this.getClientLevel(), pos);
     }
 
@@ -613,6 +638,19 @@ public interface SableCompanion {
     @Contract(pure = true)
     default boolean isInPlotGrid(final Level level, final ChunkPos chunkPos) {
         return this.isInPlotGrid(level, chunkPos.x, chunkPos.z);
+    }
+
+    /**
+     * Checks if the plot grid contains the given block.
+     *
+     * @param level the level to check
+     * @param pos   the global position to check
+     * @return If the block is inside the plot-grid
+     * @since 1.4.0
+     */
+    @Contract(pure = true)
+    default boolean isInPlotGrid(final Level level, final SectionPos pos) {
+        return this.isInPlotGrid(level, pos.getX(), pos.getZ());
     }
 
     /**
