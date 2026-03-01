@@ -455,6 +455,19 @@ public interface SableCompanion {
      * @param level the level to check
      * @param pos   the position of the point
      * @return the global velocity of the point stored in dest [m/s]
+     * @since 1.3.0
+     */
+    @Contract(value = "_,_->param2", mutates = "param2")
+    default Vector3d getVelocity(final Level level, final Vector3d pos) {
+        return this.getVelocity(level, pos, pos);
+    }
+
+    /**
+     * Gets the global velocity of a point in a level, taking into account sub-level movement.
+     *
+     * @param level the level to check
+     * @param pos   the position of the point
+     * @return the global velocity of the point stored in dest [m/s]
      * @deprecated Use {@link #getVelocity(Level, Position)} instead
      */
     @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
@@ -494,6 +507,20 @@ public interface SableCompanion {
      * @param subLevel the sub-level the point is assumed to be in
      * @param pos      the position of the point
      * @return the global velocity of the point stored in dest [m/s]
+     * @since 1.3.0
+     */
+    @Contract(value = "_,_,_->param3", mutates = "param3")
+    default Vector3d getVelocity(final Level level, final SubLevelAccess subLevel, final Vector3d pos) {
+        return this.getVelocity(level, subLevel, pos, pos);
+    }
+
+    /**
+     * Gets the global velocity of a point in a sub-level
+     *
+     * @param level    the level to check
+     * @param subLevel the sub-level the point is assumed to be in
+     * @param pos      the position of the point
+     * @return the global velocity of the point stored in dest [m/s]
      * @deprecated Use {@link #getVelocity(Level, SubLevelAccess, Position)} instead
      */
     @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
@@ -525,6 +552,19 @@ public interface SableCompanion {
      */
     @Contract(value = "_,_,_->param3", mutates = "param3")
     Vector3d getVelocityRelativeToAir(final Level level, final Vector3dc pos, final Vector3d dest);
+
+    /**
+     * Gets the global velocity of a point in a level relative to the air, taking into account sublevels and their plots/poses
+     *
+     * @param level the level to check
+     * @param pos   the position of the point
+     * @return the global velocity of the point stored in dest [m/s]
+     * @since 1.3.0
+     */
+    @Contract(value = "_,_->param2", mutates = "param2")
+    default Vector3d getVelocityRelativeToAir(final Level level, final Vector3d pos) {
+        return this.getVelocityRelativeToAir(level, pos, pos);
+    }
 
     /**
      * Gets the global velocity of a point in a level relative to the air, taking into account sublevels and their plots/poses

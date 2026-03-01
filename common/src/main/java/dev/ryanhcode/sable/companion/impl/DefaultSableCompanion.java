@@ -45,7 +45,7 @@ public final class DefaultSableCompanion implements SableCompanion {
 
     @Override
     public Vec3 projectOutOfSubLevel(final Level level, final Position pos) {
-        return new Vec3(pos.x(), pos.y(), pos.z());
+        return pos instanceof final Vec3 vec3 ? vec3 : new Vec3(pos.x(), pos.y(), pos.z());
     }
 
     @Override
