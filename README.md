@@ -75,9 +75,44 @@ dependencies {
 
 ## Compatibility Advice
 
+### Working with Positions
+
+Positions inside of sub-level plots are stored with extreme values inside the plot grid.
+Companion has utilities to work with positions in plots: 
+
+```java
+Level level = ...;
+
+// To find the loaded sub-level containing a given position in its plot, if present:
+SubLevelAccess subLevelAccess = SableCompanion.INSTANCE.getContaining(level, pos);
+
+// To check if a given position is contained in the plot grid:
+boolean isInPlotGrid = SableCompanion.INSTANCE.isInPlotGrid(level, pos);
+```
+
+### Projecting Positions
+
+With a `SubLevelAccess`, the logical (current), last, and render "pose" can be obtained to transform positions in and out of its plot.
+
+```java
+// Example: Transform a position out of a sub-level into "global" space
+Vec3 position = ...;
+SubLevelAccess subLevelAccess = SableCompanion.INSTANCE.getContaining(level, pos);
+
+if (subLevelAccess != null) {
+    Pose3dc pose = subLevelAccess.logicalPose();
+
+    // Transform the position to global space
+    position = pose.transformPosition(position);
+}
+
+// Companion has a compact utility for the above that projects a position out of a sub-level (if it is one)
+position = SableCompanion.INSTANCE.projectOutOfSubLevel(level, position);
+
+```
+
 ### Distance Checks
 
-Positions inside of sub-level plots are stored with extreme values. 
 In order to get the *global* distance between two points (either of which can be within a sub-level), companion has a utility.
 
 ```java
@@ -85,7 +120,7 @@ Level level = ...;
 Vec3 a = ...;
 Vec3 b = ...;
 
-// INCORRECT - distance will be extreme if one, or both of the positions are in the plot
+// INCORRECT - distance will be extreme if one or both of the positions are in the plot
 double incorrectDistanceSquared = a.distanceToSqr(b);
 
 // CORRECT - distance will be computed in global space
@@ -101,3 +136,4 @@ Entity#distanceToSqr(Vec3 vec3);
 Entity#distanceToSqr(Entity entity);
 Entity#distanceTo(Entity entity);
 ```
+
