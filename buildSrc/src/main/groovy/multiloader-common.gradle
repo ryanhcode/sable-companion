@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "sable-companion-${minecraft_version}"
+    archivesName = "sable-companion-${project.name}-${minecraft_version}"
 }
 
 java {
@@ -48,6 +48,7 @@ repositories {
 // Read more about capabilities here: https://docs.gradle.org/current/userguide/component_capabilities.html#sec:declaring-additional-capabilities-for-a-local-component
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
     configurations."$variant".outgoing {
+        capability("$group:${project.name}:$version")
         capability("$group:${base.archivesName.get()}:$version")
         capability("$group:$mod_id-${project.name}-${minecraft_version}:$version")
         capability("$group:$mod_id:$version")
@@ -96,8 +97,41 @@ processResources {
             'java_version'                 : java_version
     ]
 
-    filesMatching(['fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml']) {
+    var jsonExpandProps = expandProps.collectEntries {
+        key, value -> [(key): value instanceof String ? value.replace("\n", "\\\\n") : value]
+    }
+
+    filesMatching(['META-INF/mods.toml', 'META-INF/neoforge.mods.toml']) {
         expand expandProps
     }
+
+    filesMatching(['pack.mcmeta', 'fabric.mod.json', '*.mixins.json']) {
+        expand jsonExpandProps
+    }
+
     inputs.properties(expandProps)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = base.archivesName.get()
+            from components.java
+        }
+    }
+
+    repositories {
+        maven {
+            url = System.getenv('local_maven_url')
+
+            credentials {
+                username = System.getenv('local_maven_user')
+                password = System.getenv('local_maven_token')
+            }
+
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
 }

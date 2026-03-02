@@ -28,25 +28,20 @@ artifacts {
     commonResources sourceSets.main.resources.sourceDirectories.singleFile
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = base.archivesName.get()
-            from components.java
+// Implement mcgradleconventions loader attribute
+def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
+['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->
+    configurations.named("$variant") {
+        attributes {
+            attribute(loaderAttribute, 'common')
         }
     }
-
-    repositories {
-        maven {
-            url = System.getenv('local_maven_url')
-
-            credentials {
-                username = System.getenv('local_maven_user')
-                password = System.getenv('local_maven_token')
-            }
-
-            authentication {
-                basic(BasicAuthentication)
+}
+sourceSets.configureEach {
+    [it.compileClasspathConfigurationName, it.runtimeClasspathConfigurationName].each { variant->
+        configurations.named("$variant") {
+            attributes {
+                attribute(loaderAttribute, 'common')
             }
         }
     }
