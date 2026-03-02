@@ -575,6 +575,8 @@ public interface SableCompanion {
      * @param dest  the vector to hold the result
      * @return the global velocity of the point stored in dest [m/s]
      */
+    @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+    @Deprecated
     @Contract(value = "_,_,_->param3", mutates = "param3")
     Vector3d getVelocityRelativeToAir(final Level level, final Vector3dc pos, final Vector3d dest);
 
@@ -586,6 +588,8 @@ public interface SableCompanion {
      * @return the global velocity of the point stored in dest [m/s]
      * @since 1.3.0
      */
+    @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+    @Deprecated
     @Contract(value = "_,_->param2", mutates = "param2")
     default Vector3d getVelocityRelativeToAir(final Level level, final Vector3d pos) {
         return this.getVelocityRelativeToAir(level, pos, pos);
@@ -612,6 +616,8 @@ public interface SableCompanion {
      * @return the global velocity of the point stored in dest [m/s]
      * @since 1.2.0
      */
+    @ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+    @Deprecated
     @Contract(pure = true)
     default Vec3 getVelocityRelativeToAir(final Level level, final Position pos) {
         return this.getVelocity(level, new Vec3(pos.x(), pos.y(), pos.z()));
