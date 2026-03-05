@@ -50,7 +50,7 @@ public interface SableCompanion {
                 return annotation != null ? annotation.value() : 1000;
             }))
             .map(ServiceLoader.Provider::get)
-            .orElseThrow(() -> new RuntimeException("Failed to find sable assembly platform"));
+            .orElseThrow(() -> new RuntimeException("Failed to find any sable companion implementation"));
 
     /**
      * Gets all sublevels that intersect with the given bounding box
