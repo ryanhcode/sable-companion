@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaterniondc;
 import org.joml.Vector3d;
@@ -778,7 +777,7 @@ public interface SableCompanion {
      * @since 1.5.0
      */
     @Contract(pure = true)
-    @NotNull Vector3d getFeetPos(final Entity entity, final float distanceDown);
+    Vector3d getFeetPos(final Entity entity, final float distanceDown);
 
     /**
      * Gets the feet position of an entity, taking their tracking sub-level into account.
@@ -789,7 +788,7 @@ public interface SableCompanion {
      * @since 1.5.0
      */
     @Contract(pure = true)
-    default @NotNull Vector3d getFeetPos(final Entity entity, final float distanceDown, @Nullable final Quaterniondc orientation) {
+    default Vector3d getFeetPos(final Entity entity, final float distanceDown, @Nullable final Quaterniondc orientation) {
         final Vector3d feetPos;
 
         if (orientation == null) {
