@@ -1,6 +1,7 @@
 package dev.ryanhcode.sable.companion;
 
 import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
+import dev.ryanhcode.sable.companion.math.JOMLConversion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
 import net.minecraft.core.SectionPos;
@@ -13,7 +14,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaterniondc;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
@@ -715,6 +718,87 @@ public interface SableCompanion {
     @Contract(pure = true)
     default boolean isInPlotGrid(final BlockEntity blockEntity) {
         return this.isInPlotGrid(blockEntity.getLevel(), blockEntity.getBlockPos());
+    }
+
+    /**
+     * Queries the sub-level an entity is currently "tracking", if any.
+     * Entities move with their tracking sub-levels, are networked in the local frame of them,
+     * and log out with tracking points located in them.
+     *
+     * @param entity the entity to query the tracking sub-level of
+     * @return the sub-level that the entity is tracking, if any
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    @Nullable SubLevelAccess getTrackingSubLevel(final Entity entity);
+
+    /**
+     * Queries the sub-level an entity is "tracking" last tick, if any.
+     * Entities move with their tracking sub-levels, are networked in the local frame of them,
+     * and log out with tracking points located in them.
+     *
+     * @param entity the entity to query the tracking sub-level of
+     * @return the sub-level that the entity is tracking, if any
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    @Nullable SubLevelAccess getLastTrackingSubLevel(final Entity entity);
+
+    /**
+     * Queries the sub-level an entity is currently tracking, or the vehicle sub-level.
+     *
+     * @param entity the entity to query
+     * @return the sub-level that the entity is tracking or the passenger of, if any
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    @Nullable SubLevelAccess getTrackingOrVehicleSubLevel(final Entity entity);
+
+    /**
+     * @param entity the entity to query
+     * @return the sub-level that the entity is passenger of, if any
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    @Nullable SubLevelAccess getVehicleSubLevel(final Entity entity);
+
+    /**
+     * Gets the interpolated eye position of an entity, taking their tracking sub-level into account.
+     *
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    Vec3 getEyePositionInterpolated(final Entity entity, final float partialTicks);
+
+    /**
+     * Gets the feet position of an entity, taking their tracking sub-level into account.
+     *
+     * @param entity       The entity to query
+     * @param distanceDown The offset below the entity
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    @NotNull Vector3d getFeetPos(final Entity entity, final float distanceDown);
+
+    /**
+     * Gets the feet position of an entity, taking their tracking sub-level into account.
+     *
+     * @param entity       The entity to query
+     * @param distanceDown The offset below the entity
+     * @param orientation  The orientation of the entity
+     * @since 1.5.0
+     */
+    @Contract(pure = true)
+    default @NotNull Vector3d getFeetPos(final Entity entity, final float distanceDown, @Nullable final Quaterniondc orientation) {
+        final Vector3d feetPos;
+
+        if (orientation == null) {
+            feetPos = JOMLConversion.toJOML(entity.position()).sub(0.0, distanceDown, 0.0);
+        } else {
+            feetPos = JOMLConversion.toJOML(entity.position()).sub(orientation.transform(new Vector3d(0.0, distanceDown + entity.getEyeHeight(), 0.0)));
+        }
+
+        return feetPos;
     }
 
     /**

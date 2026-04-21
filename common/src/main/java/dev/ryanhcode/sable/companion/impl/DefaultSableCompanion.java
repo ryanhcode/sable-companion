@@ -6,9 +6,11 @@ import dev.ryanhcode.sable.companion.math.BoundingBox3dc;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
@@ -150,6 +152,36 @@ public final class DefaultSableCompanion implements SableCompanion {
     @Override
     public boolean isInPlotGrid(final Level level, final int chunkX, final int chunkZ) {
         return false;
+    }
+
+    @Override
+    public @Nullable SubLevelAccess getTrackingSubLevel(final Entity entity) {
+        return null;
+    }
+
+    @Override
+    public @Nullable SubLevelAccess getLastTrackingSubLevel(final Entity entity) {
+        return null;
+    }
+
+    @Override
+    public @Nullable SubLevelAccess getTrackingOrVehicleSubLevel(final Entity entity) {
+        return null;
+    }
+
+    @Override
+    public @Nullable SubLevelAccess getVehicleSubLevel(final Entity entity) {
+        return null;
+    }
+
+    @Override
+    public Vec3 getEyePositionInterpolated(final Entity entity, final float partialTicks) {
+        return entity.getEyePosition(partialTicks);
+    }
+
+    @Override
+    public @NotNull Vector3d getFeetPos(final Entity entity, final float distanceDown) {
+        return this.getFeetPos(entity, distanceDown, null);
     }
 
     @Override
