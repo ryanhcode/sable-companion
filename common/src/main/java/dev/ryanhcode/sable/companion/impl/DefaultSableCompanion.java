@@ -105,6 +105,34 @@ public final class DefaultSableCompanion implements SableCompanion {
     }
 
     @Override
+    public double rectilinearDistanceWithSubLevels(final Level level, final Vector3dc a, final Vector3dc b) {
+        return this.rectilinearDistanceWithSubLevels(level, a.x(), a.y(), a.z(), b.x(), b.y(), b.z());
+    }
+
+    @Override
+    public double rectilinearDistanceWithSubLevels(final Level level, final Position a, final Position b) {
+        return this.rectilinearDistanceWithSubLevels(level, a.x(), a.y(), a.z(), b.x(), b.y(), b.z());
+    }
+
+    @Override
+    public double rectilinearDistanceWithSubLevels(final Level level, final Vector3dc a, final double bX, final double bY, final double bZ) {
+        return this.rectilinearDistanceWithSubLevels(level, a.x(), a.y(), a.z(), bX, bY, bZ);
+    }
+
+    @Override
+    public double rectilinearDistanceWithSubLevels(final Level level, final Position a, final double bX, final double bY, final double bZ) {
+        return this.rectilinearDistanceWithSubLevels(level, a.x(), a.y(), a.z(), bX, bY, bZ);
+    }
+
+    @Override
+    public double rectilinearDistanceWithSubLevels(final Level level, final double aX, final double aY, final double aZ, final double bX, final double bY, final double bZ) {
+        final double d0 = Math.abs(aX - bX);
+        final double d1 = Math.abs(aY - bY);
+        final double d2 = Math.abs(aZ - bZ);
+        return Math.max(d0, Math.max(d1, d2));
+    }
+
+    @Override
     public Vector3d getVelocity(final Level level, final Vector3dc pos, final Vector3d dest) {
         return dest.zero();
     }

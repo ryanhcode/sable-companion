@@ -466,6 +466,74 @@ public interface SableCompanion {
     double distanceSquaredWithSubLevels(final Level level, final double aX, final double aY, final double aZ, final double bX, final double bY, final double bZ);
 
     /**
+     * Computes the rectilinear distance between two points, taking into account sublevels and their plots/poses.
+     *
+     * @param level the level to check
+     * @param a     the first point
+     * @param b     the second point
+     * @return the rectilinear distance between the two points
+     * @since 1.6.0
+     */
+    @Contract(pure = true)
+    double rectilinearDistanceWithSubLevels(final Level level, final Vector3dc a, final Vector3dc b);
+
+    /**
+     * Computes the rectilinear distance between two points, taking into account sublevels and their plots/poses.
+     *
+     * @param level the level to check
+     * @param a     the first point
+     * @param b     the second point
+     * @return the rectilinear distance between the two points
+     * @since 1.6.0
+     */
+    @Contract(pure = true)
+    double rectilinearDistanceWithSubLevels(final Level level, final Position a, final Position b);
+
+    /**
+     * Computes the rectilinear distance between two points, taking into account sublevels and their plots/poses.
+     *
+     * @param level the level to check
+     * @param a     the first point
+     * @param bX    the second point X
+     * @param bY    the second point Y
+     * @param bZ    the second point Z
+     * @return the rectilinear distance between the two points
+     * @since 1.6.0
+     */
+    @Contract(pure = true)
+    double rectilinearDistanceWithSubLevels(final Level level, final Vector3dc a, final double bX, final double bY, final double bZ);
+
+    /**
+     * Computes the rectilinear distance between two points, taking into account sublevels and their plots/poses.
+     *
+     * @param level the level to check
+     * @param a     the first point
+     * @param bX    the second point X
+     * @param bY    the second point Y
+     * @param bZ    the second point Z
+     * @return the rectilinear distance between the two points
+     * @since 1.6.0
+     */
+    @Contract(pure = true)
+    double rectilinearDistanceWithSubLevels(final Level level, final Position a, final double bX, final double bY, final double bZ);
+
+    /**
+     * Computes the rectilinear distance between two points, taking into account sublevels and their plots/poses.
+     *
+     * @param level the level to check
+     * @param aX    the first point X
+     * @param aY    the first point Y
+     * @param aZ    the first point Z
+     * @param bX    the second point X
+     * @param bY    the second point Y
+     * @param bZ    the second point Z
+     * @return the rectilinear distance between the two points
+     * @since 1.6.0
+     */
+    @Contract(pure = true)
+    double rectilinearDistanceWithSubLevels(final Level level, final double aX, final double aY, final double aZ, final double bX, final double bY, final double bZ);
+
+    /**
      * Gets the global velocity of a point in a level, taking into account sub-level movement.
      *
      * @param level the level to check
