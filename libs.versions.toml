@@ -1,0 +1,19 @@
+[versions]
+java-version = "21"
+
+minecraft = "1.21.1"
+
+# https://fabricmc.net/develop/
+loom = "1.16.+"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+
+[plugins]
+loom = { id = "net.fabricmc.fabric-loom", version.ref = "loom" }
+loom-remap = { id = "net.fabricmc.fabric-loom-remap", version.ref = "loom" }
+
+# Convention Plugins
+configure-base = { id = "configure-base" }
+consume-common = { id = "consume-common" }
+provide-common = { id = "provide-common" }

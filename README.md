@@ -16,24 +16,20 @@ Copy the following segments into your `build.gradle` file depending on the platf
 
 ```groovy
 repositories {
-    exclusiveContent { // Sable
+    exclusiveContent {
         forRepository {
-            maven {
-                url = "https://maven.ryanhcode.dev/releases"
-                name = "RyanHCode Maven"
-            }
+            maven { url = "https://maven.ryanhcode.dev/releases" }
         }
         filter {
-            includeGroup("dev.ryanhcode.sable")
             includeGroup("dev.ryanhcode.sable-companion")
         }
     }
 }
 
 dependencies {
-    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:[${project.sable_companion_version},)")) {
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common:[${project.sable_companion_version},)")) {
         version {
-            prefer project.sable_companion_version
+            prefer(project.sable_companion_version)
         }
     }
 }
@@ -48,22 +44,18 @@ dependencies {
 
 ```groovy
 repositories {
-    exclusiveContent { // Sable
+    exclusiveContent {
         forRepository {
-            maven {
-                url = "https://maven.ryanhcode.dev/releases"
-                name = "RyanHCode Maven"
-            }
+            maven { url = "https://maven.ryanhcode.dev/releases" }
         }
         filter {
-            includeGroup("dev.ryanhcode.sable")
             includeGroup("dev.ryanhcode.sable-companion")
         }
     }
 }
 
 dependencies {
-    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-${project.minecraft_version}:${project.sable_companion_version}"))
+    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric:${project.sable_companion_version}"))
 }
 ```
 
@@ -76,22 +68,18 @@ dependencies {
 
 ```groovy
 repositories {
-    exclusiveContent { // Sable
+    exclusiveContent {
         forRepository {
-            maven {
-                url = "https://maven.ryanhcode.dev/releases"
-                name = "RyanHCode Maven"
-            }
+            maven { url = "https://maven.ryanhcode.dev/releases" }
         }
         filter {
-            includeGroup("dev.ryanhcode.sable")
             includeGroup("dev.ryanhcode.sable-companion")
         }
     }
 }
 
 dependencies {
-    api "dev.ryanhcode.sable-companion:sable-companion-common-${project.minecraft_version}:${project.sable_companion_version}"
+    api("dev.ryanhcode.sable-companion:sable-companion-common:${project.sable_companion_version}")
 }
 ```
 
