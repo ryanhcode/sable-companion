@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "sable-companion-${project.name}-${minecraft_version}"
+    archivesName = "sable-companion-${project.name}"
 }
 
 java {

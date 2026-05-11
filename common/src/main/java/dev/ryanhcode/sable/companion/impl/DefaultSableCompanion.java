@@ -23,6 +23,7 @@ import java.util.function.BiFunction;
  */
 @ApiStatus.Internal
 @SableCompanion.LoadPriority(500)
+@SuppressWarnings("deprecation")
 public final class DefaultSableCompanion implements SableCompanion {
 
     @Override

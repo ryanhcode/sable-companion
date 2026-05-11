@@ -11,6 +11,18 @@ configurations {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir("../common/src/main/java")
+        }
+        resources {
+            srcDir("../common/src/main/resources")
+        }
+    }
+}
+
+/*
 dependencies {
     compileOnly(project(':common')) {
         capabilities {
@@ -46,3 +58,4 @@ tasks.named('sourcesJar', Jar) {
     dependsOn(configurations.commonResources)
     from(configurations.commonResources)
 }
+ */

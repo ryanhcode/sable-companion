@@ -23,7 +23,7 @@ public final class BoundingBox3i implements BoundingBox3ic {
     public static final BoundingBox3ic EMPTY = new BoundingBox3i().setUnchecked(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
     public static Codec<BoundingBox3i> CODEC = Codec.INT.listOf().comapFlatMap((list) -> SableCompanionUtil.fixedSize(list, 6).map(
-                    (iList) -> new BoundingBox3i(iList.getFirst(),
+                    (iList) -> new BoundingBox3i(iList.get(0),
                             iList.get(1),
                             iList.get(2),
                             iList.get(3),

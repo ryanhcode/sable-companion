@@ -26,7 +26,7 @@ public final class BoundingBox3d implements BoundingBox3dc {
     public static final BoundingBox3d EMPTY = new BoundingBox3d(0, 0, 0, 0, 0, 0);
 
     public static Codec<BoundingBox3d> CODEC = Codec.DOUBLE.listOf().comapFlatMap((list) -> SableCompanionUtil.fixedSize(list, 6).map(
-                    (iList) -> new BoundingBox3d(iList.getFirst(),
+                    (iList) -> new BoundingBox3d(iList.get(0),
                             iList.get(1),
                             iList.get(2),
                             iList.get(3),
