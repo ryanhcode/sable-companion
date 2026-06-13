@@ -10,6 +10,7 @@ version = "${version}"
 displayName = "${mod_name}"
 displayURL = "${github_url}"
 logoFile = "${mod_id}.png"
+logoBlur = false
 authors = "${authors}"
 description = '''${mod_description}'''
 
