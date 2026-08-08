@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common:[${project.sable_companion_version},)")) {
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${project.sable_companion_version},)")) {
         version {
             prefer(project.sable_companion_version)
         }
@@ -55,7 +55,7 @@ repositories {
 }
 
 dependencies {
-    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric:${project.sable_companion_version}"))
+    include(modApi("dev.ryanhcode.sable-companion:sable-companion-fabric-1.21.1:${project.sable_companion_version}"))
 }
 ```
 
@@ -79,7 +79,7 @@ repositories {
 }
 
 dependencies {
-    api("dev.ryanhcode.sable-companion:sable-companion-common:${project.sable_companion_version}")
+    api("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:${project.sable_companion_version}")
 }
 ```
 
